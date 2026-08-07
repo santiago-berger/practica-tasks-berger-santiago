@@ -1,4 +1,4 @@
-import { Task } from "../models/Task.js";
+import { Task } from "../models/task.model.js";
 
 const validateTask = ({ title, description, isComplete }) => {
   const errors = [];

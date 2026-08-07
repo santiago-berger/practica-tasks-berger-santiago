@@ -1,9 +1,10 @@
 import express from "express";
+import dotenv from "dotenv";
 import { sequelize } from "./src/config/database.js";
-import { userRouter } from "./src/routes/userRoutes.js";
-import { taskRouter } from "./src/routes/taskRoutes.js";
-import { User } from "./src/models/User.js";
-import { Task } from "./src/models/Task.js";
+import { userRouter } from "./src/routes/user.routes.js";
+import { taskRouter } from "./src/routes/task.routes.js";
+import { User } from "./src/models/user.model.js";
+import { Task } from "./src/models/task.model.js";
 
 // carga las variables de entorno .env
 dotenv.config();
