@@ -5,8 +5,11 @@ import { taskRouter } from "./src/routes/taskRoutes.js";
 import { User } from "./src/models/User.js";
 import { Task } from "./src/models/Task.js";
 
+// carga las variables de entorno .env
+dotenv.config();
+
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use("/api/users", userRouter);
