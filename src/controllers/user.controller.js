@@ -52,7 +52,12 @@ export const getUsers = async (req, res) => {
 // GET /api/users/:id
 export const getUserById = async (req, res) => {
   try {
-    const user = await User.findByPk(req.params.id);
+    const user = await User.findByPk(req.params.id, {
+      attributes: ["id", "name", "email"],
+      include: [
+        { model: Task, as: "tasks", attributes: ["id", "title", "description", "isComplete"] },
+      ],      
+    });
     if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
     return res.status(200).json(user);
   } catch (error) {
