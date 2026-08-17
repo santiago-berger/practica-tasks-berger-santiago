@@ -1,4 +1,5 @@
 import { Task } from "../models/task.model.js";
+import { User } from "../models/user.model.js";
 
 const validateTask = ({ title, description, isComplete }) => {
   const errors = [];
@@ -18,11 +19,19 @@ const validateTask = ({ title, description, isComplete }) => {
 // POST /api/tasks
 export const createTask = async (req, res) => {
   try {
-    const { title, description, isComplete } = req.body;
+    const { title, description, isComplete, user_id } = req.body;
 
     const errors = validateTask({ title, description, isComplete });
     if (errors.length > 0)
       return res.status(400).json({ message: "Datos inválidos", errors });
+
+    // no se puede crear una tarea sin un usuario existente
+    if (!user_id)
+      return res.status(400).json({ message: "El user_id es obligatorio." });
+
+    const user = await User.findByPk(user_id);
+    if (!user)
+      return res.status(404).json({ message: "El usuario indicado no existe." });
 
     if (await Task.findOne({ where: { title } }))
       return res.status(400).json({ message: "Ya existe una tarea con ese título." });
@@ -37,7 +46,11 @@ export const createTask = async (req, res) => {
 // GET /api/tasks
 export const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.findAll();
+    const tasks = await Task.findAll({
+      include: [
+        { model: User, as: "author", attributes: ["id", "name", "email"] },
+      ],
+    });
     return res.status(200).json(tasks);
   } catch (error) {
     return res.status(500).json({ message: "Error al obtener las tareas", error: error.message });
@@ -47,7 +60,11 @@ export const getTasks = async (req, res) => {
 // GET /api/tasks/:id
 export const getTaskById = async (req, res) => {
   try {
-    const task = await Task.findByPk(req.params.id);
+    const task = await Task.findByPk(req.params.id, {
+      include: [
+        { model: User, as: "author", attributes: ["id", "name", "email"] },
+      ],   
+    });
     if (!task) return res.status(404).json({ message: "Tarea no encontrada" });
     return res.status(200).json(task);
   } catch (error) {
