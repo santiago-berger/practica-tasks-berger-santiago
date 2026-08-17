@@ -22,9 +22,18 @@ export const Task = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "users", key: "id" },
+    },
   },
   {
     tableName: "tasks",
     timestamps: false,
   }
 );
+
+// relacion uno a muchos
+Task.belongsTo(User, { foreignKey: "user_id", as: "author" });
+User.hasMany(Task, { foreignKey: "user_id", as: "tasks" });
