@@ -9,8 +9,8 @@ import {
 
 export const taskRouter = Router();
 
-taskRouter.post("/", createTask);       // POST   /api/tasks
-taskRouter.get("/", getTasks);          // GET    /api/tasks
-taskRouter.get("/:id", getTaskById);    // GET    /api/tasks/:id
-taskRouter.put("/:id", updateTask);     // PUT    /api/tasks/:id
-taskRouter.delete("/:id", deleteTask);  // DELETE /api/tasks/:id
+taskRouter.post("tasks/", createTask);       // POST   /api/tasks
+taskRouter.get("tasks/", getTasks);          // GET    /api/tasks
+taskRouter.get("tasks/:id", getTaskById);    // GET    /api/tasks/:id
+taskRouter.put("tasks/:id", updateTask);     // PUT    /api/tasks/:id
+taskRouter.delete("tasks/:id", deleteTask);  // DELETE /api/tasks/:id

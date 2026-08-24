@@ -20,10 +20,10 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use("/api/users", userRouter);
-app.use("/api/tasks", taskRouter);
-app.use("/api/profiles", profileRouter);
-app.use("/api/roles", roleRouter);
+app.use("/api", userRouter);
+app.use("/api", taskRouter);
+app.use("/api", profileRouter);
+app.use("/api", roleRouter);
 
 const startServer = async () => {
   try {
