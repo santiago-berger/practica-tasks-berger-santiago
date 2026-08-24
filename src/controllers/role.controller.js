@@ -1,17 +1,11 @@
+import { matchedData } from "express-validator";
 import { Role } from "../models/role.model.js";
 import { User } from "../models/user.model.js";
 
 // POST /api/roles crea un rol
 export const createRole = async (req, res) => {
   try {
-    const { roleName } = req.body;
-
-    if (!roleName || typeof roleName !== "string" || roleName.trim() === "")
-      return res.status(400).json({ message: "El roleName es obligatorio." });
-
-    if (await Role.findOne({ where: { roleName } }))
-      return res.status(400).json({ message: "Ese rol ya existe." });
-
+    const { roleName } = matchedData(req);
     const role = await Role.create({ roleName });
     return res.status(201).json({ message: "Rol creado con éxito", role });
   } catch (error) {
