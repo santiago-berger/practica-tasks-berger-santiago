@@ -1,25 +1,11 @@
+import { matchedData } from "express-validator";
 import { Profile } from "../models/profile.model.js";
 import { User } from "../models/user.model.js";
 
 // POST /api/profiles -> crea un perfil relacionado con un usuario (uno a uno)
 export const createProfile = async (req, res) => {
   try {
-    const { firstName, lastName, user_id } = req.body;
-
-    if (!firstName || !lastName)
-      return res.status(400).json({ message: "firstName y lastName son obligatorios." });
-
-    if (!user_id)
-      return res.status(400).json({ message: "El user_id es obligatorio." });
-
-    const user = await User.findByPk(user_id);
-    if (!user)
-      return res.status(404).json({ message: "El usuario indicado no existe." });
-
-    // Un usuario solo puede tener un perfil.
-    if (await Profile.findOne({ where: { user_id } }))
-      return res.status(400).json({ message: "Ese usuario ya tiene un perfil." });
-
+    const { firstName, lastName, user_id } = matchedData(req);
     const profile = await Profile.create({ firstName, lastName, user_id });
     return res.status(201).json({ message: "Perfil creado con éxito", profile });
   } catch (error) {
