@@ -9,8 +9,8 @@ import {
 
 export const userRouter = Router();
 
-userRouter.post("/", createUser);       // POST   /api/users
-userRouter.get("/", getUsers);          // GET    /api/users
-userRouter.get("/:id", getUserById);    // GET    /api/users/:id
-userRouter.put("/:id", updateUser);     // PUT    /api/users/:id
-userRouter.delete("/:id", deleteUser);  // DELETE /api/users/:id
+userRouter.post("/users", createUser);       // POST   /api/users
+userRouter.get("/users", getUsers);          // GET    /api/users
+userRouter.get("/users/:id", getUserById);    // GET    /api/users/:id
+userRouter.put("/users/:id", updateUser);     // PUT    /api/users/:id
+userRouter.delete("/users/:id", deleteUser);  // DELETE /api/users/:id
