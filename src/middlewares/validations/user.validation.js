@@ -19,7 +19,6 @@ export const userIdValidation = [
 // validaciones para crear un usuario (POST /api/users)
 export const createUserValidation = [
   body("name")
-    .optional()
     .notEmpty()
     .withMessage("El name es obligatorio")
     .bail()
@@ -27,7 +26,6 @@ export const createUserValidation = [
     .withMessage("El name debe tener entre 2 y 100 caracteres"),
 
   body("email")
-    .optional()
     .notEmpty()
     .withMessage("El email es obligatorio")
     .bail()
@@ -44,7 +42,6 @@ export const createUserValidation = [
     }),
 
   body("password")
-    .optional()
     .notEmpty()
     .withMessage("La password es obligatoria")
     .bail()
@@ -58,6 +55,7 @@ export const updateUserValidation = [
   ...userIdValidation,
 
   body("name")
+    .optional()
     .notEmpty()
     .withMessage("El name es obligatorio")
     .bail()
@@ -65,6 +63,7 @@ export const updateUserValidation = [
     .withMessage("El name debe tener entre 2 y 100 caracteres"),
 
   body("email")
+    .optional()
     .notEmpty()
     .withMessage("El email es obligatorio")
     .bail()
@@ -81,6 +80,7 @@ export const updateUserValidation = [
     }),
 
   body("password")
+    .optional()
     .notEmpty()
     .withMessage("La password es obligatoria")
     .bail()
