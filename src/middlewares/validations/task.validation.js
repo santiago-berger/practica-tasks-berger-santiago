@@ -26,7 +26,7 @@ export const createTaskValidation = [
     .isLength({ min: 3, max: 100 })
     .withMessage("El title debe tener entre 3 y 100 caracteres")
     .bail()
-    // UNICIDAD: no puede haber dos tareas con el mismo título.
+    // unicidad porque no puede haber dos tareas con el mismo título
     .custom(async (title) => {
       const existe = await Task.findOne({ where: { title } });
       if (existe) {
@@ -70,6 +70,7 @@ export const updateTaskValidation = [
   ...taskIdValidation,
 
   body("title")
+    .optional()
     .notEmpty()
     .withMessage("El title es obligatorio")
     .bail()
@@ -86,6 +87,7 @@ export const updateTaskValidation = [
     }),
 
   body("description")
+    .optional()
     .notEmpty()
     .withMessage("La description es obligatoria")
     .bail()

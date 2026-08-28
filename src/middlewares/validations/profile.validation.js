@@ -54,3 +54,24 @@ export const createProfileValidation = [
       return true;
     }),
 ];
+
+// validaciones para actualizar un perfil (PUT /api/profiles/:id)
+export const updateProfileValidation = [
+  ...profileIdValidation,
+
+  body("firstName")
+    .optional()
+    .notEmpty()
+    .withMessage("El firstName no puede estar vacío")
+    .bail()
+    .isLength({ min: 2, max: 100 })
+    .withMessage("El firstName debe tener entre 2 y 100 caracteres"),
+
+  body("lastName")
+    .optional()
+    .notEmpty()
+    .withMessage("El lastName no puede estar vacío")
+    .bail()
+    .isLength({ min: 2, max: 100 })
+    .withMessage("El lastName debe tener entre 2 y 100 caracteres"),
+];

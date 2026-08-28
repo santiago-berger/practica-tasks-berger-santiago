@@ -34,3 +34,24 @@ export const createRoleValidation = [
       return true;
     }),
 ];
+
+// validaciones para actualizar un rol (PUT /api/roles/:id)
+export const updateRoleValidation = [
+  ...roleIdValidation,
+
+  body("roleName")
+    .optional()
+    .notEmpty()
+    .withMessage("El roleName no puede estar vacío")
+    .bail()
+    .isLength({ min: 2, max: 100 })
+    .withMessage("El roleName debe tener entre 2 y 100 caracteres")
+    .bail()
+    .custom(async (roleName, { req }) => {
+      const existe = await Role.findOne({ where: { roleName } });
+      if (existe && existe.id !== Number(req.params.id)) {
+        throw new Error("Ese rol ya existe");
+      }
+      return true;
+    }),
+];

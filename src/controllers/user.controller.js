@@ -48,12 +48,13 @@ export const getUserById = async (req, res) => {
 // PUT /api/users/:id
 export const updateUser = async (req, res) => {
   try {
-    const { name, email, password } = matchedData(req);
+    const {id} = matchedData(req, {locations:["params"]});
+    const data = matchedData(req, {locations:["body"]});
 
     const user = await User.findByPk(id);
     if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
 
-    await user.update({ name, email, password });
+    await user.update(data);
     return res.status(200).json({ message: "Usuario actualizado con éxito", user });
   } catch (error) {
     return res.status(500).json({ message: "Error al actualizar el usuario", error: error.message });

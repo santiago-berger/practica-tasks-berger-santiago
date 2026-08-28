@@ -31,7 +31,9 @@ export const Task = sequelize.define(
   },
   {
     tableName: "tasks",
-    timestamps: false,
+    timestamps: true,
+    // activa la eliminacion logica
+    paranoid: true,
   }
 );
 
