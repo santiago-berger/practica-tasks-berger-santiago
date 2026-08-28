@@ -6,7 +6,7 @@ import { User } from "../models/user.model.js";
 export const createTask = async (req, res) => {
   try {
     const { title, description, isComplete, user_id } = matchedData(req);
-    const task = await Task.create({ title, description, isComplete });
+    const task = await Task.create({ title, description, isComplete, user_id });
     return res.status(201).json({ message: "Tarea creada con éxito", task });
   } catch (error) {
     return res.status(500).json({ message: "Error al crear la tarea", error: error.message });
@@ -46,12 +46,13 @@ export const getTaskById = async (req, res) => {
 // PUT /api/tasks/:id
 export const updateTask = async (req, res) => {
   try {
-    const { title, description, isComplete } = matchedData(req);
+    const {id} = matchedData(req, {locations:["params"]});
+    const data = matchedData(req, {locations:["body"]});
 
     const task = await Task.findByPk(id);
     if (!task) return res.status(404).json({ message: "Tarea no encontrada" });
 
-    await task.update({ title, description, isComplete });
+    await task.update(data);
     return res.status(200).json({ message: "Tarea actualizada con éxito", task });
   } catch (error) {
     return res.status(500).json({ message: "Error al actualizar la tarea", error: error.message });

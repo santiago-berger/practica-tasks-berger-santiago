@@ -19,6 +19,7 @@ export const userIdValidation = [
 // validaciones para crear un usuario (POST /api/users)
 export const createUserValidation = [
   body("name")
+    .optional()
     .notEmpty()
     .withMessage("El name es obligatorio")
     .bail()
@@ -26,13 +27,14 @@ export const createUserValidation = [
     .withMessage("El name debe tener entre 2 y 100 caracteres"),
 
   body("email")
+    .optional()
     .notEmpty()
     .withMessage("El email es obligatorio")
     .bail()
     .isEmail()
     .withMessage("El email debe tener un formato válido")
     .bail()
-    // custom de UNICIDAD: consulta la BD y rechaza si el email ya existe
+    // el custom de unicidad consulta la bd y rechaza si el email ya existe
     .custom(async (email) => {
       const existe = await User.findOne({ where: { email } });
       if (existe) {
@@ -42,15 +44,16 @@ export const createUserValidation = [
     }),
 
   body("password")
+    .optional()
     .notEmpty()
     .withMessage("La password es obligatoria")
     .bail()
-    // custom del modelo User: mínimo 6 caracteres
+    // custom del modelo user
     .isLength({ min: 6, max: 100 })
     .withMessage("La password debe tener al menos 6 caracteres"),
 ];
 
-// Validaciones para actualizar (PUT /api/users/:id).
+// validaciones para actualizar (PUT /api/users/:id)
 export const updateUserValidation = [
   ...userIdValidation,
 
